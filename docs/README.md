@@ -1,8 +1,8 @@
 # 기능 목록
     
-1. 의존성 주입을 위한 Hilt 연결하기
+1. 의존성 주입을 위한 Hilt 연결하기 [o]
 
-2. DB 사용을 위해 Firebase 연결하기
+2. DB 사용을 위해 Firebase 연결하기 [o]
 
 3. SplashScreen 
 
