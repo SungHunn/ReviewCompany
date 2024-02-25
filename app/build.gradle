@@ -85,6 +85,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+    implementation("androidx.navigation:navigation-compose:$nav_version")
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
@@ -94,4 +95,5 @@ dependencies {
     //firebase
     implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
     implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
 }
