@@ -2,4 +2,11 @@
 <resources>
 
     <style name="Theme.ReviewCompany" parent="android:Theme.Material.Light.NoActionBar" />
+
+
+    <style name="Theme.review.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#C5E458</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.ReviewCompany</item>
+    </style>
 </resources>

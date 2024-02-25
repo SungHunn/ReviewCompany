@@ -4,7 +4,7 @@
 
 2. DB 사용을 위해 Firebase 연결하기 [o]
 
-3. SplashScreen 
+3. SplashScreen [o]
 
 4. Firebase를 통해 google login 연동하기
     - 연동 후에 앱 사용 시 로그인 되있으면 바로 메인페이지로 이동 , 아니면 로그인 화면 띄우기
