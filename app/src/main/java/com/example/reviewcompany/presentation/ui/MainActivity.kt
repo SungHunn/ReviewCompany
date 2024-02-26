@@ -1,8 +1,10 @@
 package com.example.reviewcompany.presentation.ui
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -19,9 +21,16 @@ import com.example.reviewcompany.presentation.screen.LoginScreen
 import com.example.reviewcompany.presentation.screen.MainScreen
 import com.example.reviewcompany.presentation.screen.SignUpScreen
 import com.example.reviewcompany.presentation.screen.navigation.Screen
+import com.example.reviewcompany.presentation.viewmodel.SignUpViewModel
 import com.example.reviewcompany.ui.theme.ReviewCompanyTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private val signUpViewModel: SignUpViewModel by viewModels()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -57,10 +66,14 @@ class MainActivity : ComponentActivity() {
                         composable(
                             route = Screen.SignUp.route
                         ) {
-                            SignUpScreen(navController)
+                            SignUpScreen(
+                                navController,
+                                signUpViewModel
+                            )
                         }
 
                     }
+
 
                 }
             }

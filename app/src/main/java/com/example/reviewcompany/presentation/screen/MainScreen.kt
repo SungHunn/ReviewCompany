@@ -24,7 +24,7 @@ import com.example.reviewcompany.presentation.screen.navigation.Screen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-   navController: NavController
+   navController: NavController,
 ) {
 
     Scaffold(
