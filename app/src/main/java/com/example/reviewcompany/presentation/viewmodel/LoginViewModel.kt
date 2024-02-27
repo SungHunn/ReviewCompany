@@ -1,11 +1,6 @@
 package com.example.reviewcompany.presentation.viewmodel
 
 import android.util.Log
-import android.widget.Toast
-import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.reviewcompany.domain.repository.FirebaseRepository
@@ -16,24 +11,24 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
-class SignUpViewModel @Inject constructor(
-    private val repository: FirebaseRepository
+class LoginViewModel @Inject constructor(
+    private val repository: FirebaseRepository,
 ) : ViewModel() {
 
-    private var _signUpState = MutableStateFlow<Boolean>(false)
-    val signUpState: StateFlow<Boolean> = _signUpState.asStateFlow()
+    private var _loginState = MutableStateFlow<Boolean>(false)
+    val loginState: StateFlow<Boolean> = _loginState.asStateFlow()
 
 
-    fun createAccount(email: String, password: String) = viewModelScope.launch {
+    fun login(email: String, password: String) = viewModelScope.launch {
         viewModelScope.launch {
             try {
-                _signUpState.emit(repository.signUp(email, password))
+                _loginState.emit(repository.logIn(email, password))
             } catch (e: Exception) {
-                Log.e("CreateAccountErr", e.toString())
+                Log.e("LogIn", e.toString())
             }
         }
     }
+
 
 }

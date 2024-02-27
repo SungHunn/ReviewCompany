@@ -87,8 +87,8 @@ fun SignUpScreen(
 
         Button(onClick = {
             viewModel.createAccount(emailAddress.value, password.value)
-            Log.d("state", "${viewModel.registerState.value}")
-            if (viewModel.registerState.value){
+            Log.d("state", "${viewModel.signUpState.value}")
+            if (viewModel.signUpState.value){
                 navController.navigate(Screen.Main.route)
             }
 

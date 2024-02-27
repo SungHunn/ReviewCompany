@@ -1,6 +1,7 @@
 package com.example.reviewcompany.presentation.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -21,14 +22,21 @@ import com.example.reviewcompany.presentation.screen.LoginScreen
 import com.example.reviewcompany.presentation.screen.MainScreen
 import com.example.reviewcompany.presentation.screen.SignUpScreen
 import com.example.reviewcompany.presentation.screen.navigation.Screen
+import com.example.reviewcompany.presentation.viewmodel.LoginViewModel
 import com.example.reviewcompany.presentation.viewmodel.SignUpViewModel
 import com.example.reviewcompany.ui.theme.ReviewCompanyTheme
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    @Inject
+    lateinit var auth: FirebaseAuth
+
     private val signUpViewModel: SignUpViewModel by viewModels()
+    private val loginViewModel: LoginViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,42 +47,42 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             ReviewCompanyTheme {
-                // A surface container using the 'background' color from the theme
+                val navController = rememberNavController()
+
+                Log.e("auth", "${auth.currentUser}")
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val navController = rememberNavController()
-
                     NavHost(
                         navController = navController,
-                        startDestination = Screen.Main.route
+                        startDestination =
+                        if (auth.currentUser == null) {
+                            Screen.Login.route
+                        } else {
+                            Screen.Main.route
+                        }
                     ) {
 
                         composable(
                             route = Screen.Main.route
                         ) {
-                            MainScreen(navController)
+                            MainScreen(navController, auth)
                         }
 
                         composable(
                             route = Screen.Login.route
                         ) {
-                            LoginScreen(navController)
+                            LoginScreen(navController, loginViewModel)
                         }
 
                         composable(
                             route = Screen.SignUp.route
                         ) {
-                            SignUpScreen(
-                                navController,
-                                signUpViewModel
-                            )
+                            SignUpScreen(navController, signUpViewModel)
                         }
-
                     }
-
-
                 }
             }
         }
