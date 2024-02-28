@@ -21,6 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.reviewcompany.presentation.screen.LoginScreen
 import com.example.reviewcompany.presentation.screen.MainScreen
 import com.example.reviewcompany.presentation.screen.SignUpScreen
+import com.example.reviewcompany.presentation.screen.WritingScreen
 import com.example.reviewcompany.presentation.screen.navigation.Screen
 import com.example.reviewcompany.presentation.viewmodel.LoginViewModel
 import com.example.reviewcompany.presentation.viewmodel.SignUpViewModel
@@ -81,6 +82,12 @@ class MainActivity : ComponentActivity() {
                             route = Screen.SignUp.route
                         ) {
                             SignUpScreen(navController, signUpViewModel)
+                        }
+
+                        composable(
+                            route = Screen.Writing.route
+                        ) {
+                            WritingScreen(navController)
                         }
                     }
                 }

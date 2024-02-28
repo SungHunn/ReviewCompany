@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
@@ -18,6 +19,8 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -97,7 +100,26 @@ fun MainScreen(
 
             )
 
-        }
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    navController.navigate(Screen.Writing.route)
+                }
+                ) {
+                Column(modifier = Modifier.padding(5.dp)) {
+                    
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_thumbs_up_down_24),
+                        contentDescription = "글 작성",
+                        tint = Color.Blue
+                    )
+                    Text(text = "글 쓰기", color = Color.Black)
+
+                }
+            }
+        },
+        floatingActionButtonPosition = FabPosition.End
     ) {
         Column(Modifier.padding(it)) {
 

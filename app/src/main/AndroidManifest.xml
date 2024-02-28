@@ -29,6 +29,7 @@
         </activity>
         <activity android:name=".presentation.ui.LoginActivity"/>
         <activity android:name=".presentation.ui.SignUpActivity"/>
+        <activity android:name=".presentation.ui.WritingActivity"/>
     </application>
 
 </manifest>
