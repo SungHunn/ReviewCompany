@@ -6,4 +6,7 @@ interface FirebaseRepository {
 
     suspend fun signUp(email: String, password: String): Boolean
 
+
+
+
 }

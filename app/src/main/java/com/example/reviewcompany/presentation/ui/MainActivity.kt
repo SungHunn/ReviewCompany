@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
             ReviewCompanyTheme {
                 val navController = rememberNavController()
 
-                Log.e("auth", "${auth.currentUser}")
+                Log.e("auth", "${auth.currentUser?.uid}")
 
                 Surface(
                     modifier = Modifier.fillMaxSize(),
