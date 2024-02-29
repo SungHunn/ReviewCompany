@@ -22,16 +22,18 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.review.Splash">
 
-        </activity>
-        <activity android:name=".presentation.ui.LoginActivity"/>
-        <activity android:name=".presentation.ui.SignUpActivity"/>
-        <activity android:name=".presentation.ui.WritingActivity"
-            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity android:name=".presentation.ui.LoginActivity"/>
+        <activity android:name=".presentation.ui.SignUpActivity"/>
+        <activity android:name=".presentation.ui.WritingActivity"
+            android:exported="true">
+
         </activity>
     </application>
 

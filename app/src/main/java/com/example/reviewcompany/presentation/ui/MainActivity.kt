@@ -25,6 +25,7 @@ import com.example.reviewcompany.presentation.screen.WritingScreen
 import com.example.reviewcompany.presentation.screen.navigation.Screen
 import com.example.reviewcompany.presentation.viewmodel.LoginViewModel
 import com.example.reviewcompany.presentation.viewmodel.SignUpViewModel
+import com.example.reviewcompany.presentation.viewmodel.WritingViewModel
 import com.example.reviewcompany.ui.theme.ReviewCompanyTheme
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,6 +39,7 @@ class MainActivity : ComponentActivity() {
 
     private val signUpViewModel: SignUpViewModel by viewModels()
     private val loginViewModel: LoginViewModel by viewModels()
+    private val writingViewModel: WritingViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,7 +89,7 @@ class MainActivity : ComponentActivity() {
                         composable(
                             route = Screen.Writing.route
                         ) {
-                            WritingScreen(navController)
+                            WritingScreen(navController, auth, writingViewModel)
                         }
                     }
                 }

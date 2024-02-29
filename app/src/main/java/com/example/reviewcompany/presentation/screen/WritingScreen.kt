@@ -46,7 +46,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavController
+import com.example.reviewcompany.data.ArticleEntity
+import com.example.reviewcompany.presentation.screen.navigation.Screen
+import com.example.reviewcompany.presentation.viewmodel.WritingViewModel
 import com.example.reviewcompany.ui.theme.ReviewCompanyTheme
+import com.google.firebase.auth.FirebaseAuth
 
 
 val options =
@@ -57,8 +61,11 @@ val options =
 @Composable
 fun WritingScreen(
     navController: NavController,
+    auth: FirebaseAuth,
+    viewModel: WritingViewModel,
 ) {
     val nickName = rememberSaveable { mutableStateOf("") }
+    var selectedText by remember { mutableStateOf(options[0]) }
     val companyName = rememberSaveable { mutableStateOf("") }
     val content = rememberSaveable { mutableStateOf("") }
 
@@ -102,7 +109,49 @@ fun WritingScreen(
                     .padding(end = 10.dp)
                     .weight(1f)
             ) {
-                DropDownMenu()
+
+                var expanded by remember { mutableStateOf(false) }
+
+                var textfieldSize by remember { mutableStateOf(Size.Zero) }
+
+                val icon = Icons.Filled.ArrowDropDown
+
+
+                Box() {
+                    OutlinedTextField(
+                        readOnly = true,
+                        value = selectedText,
+                        onValueChange = { selectedText = it },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .onGloballyPositioned { coordinates ->
+                                //This value is used to assign to the DropDown the same width
+                                textfieldSize = coordinates.size.toSize()
+                            },
+                        label = { Text("Label") },
+                        trailingIcon = {
+                            Icon(icon, "contentDescription",
+                                Modifier.clickable { expanded = !expanded })
+                        }
+                    )
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                        modifier = Modifier
+                            .width(with(LocalDensity.current) { textfieldSize.width.toDp() })
+                    ) {
+                        options.forEach { label ->
+                            DropdownMenuItem(
+                                onClick = {
+                                    selectedText = label
+                                    expanded = false
+                                },
+                                text = { Text(text = label) }
+                            )
+
+                        }
+                    }
+                }
             }
 
         }
@@ -153,7 +202,21 @@ fun WritingScreen(
                 .weight(0.5f)
                 .fillMaxWidth()
                 .padding(start = 10.dp, end = 10.dp, bottom = 20.dp),
-            onClick = { },
+            onClick = {
+                val articleEntity = ArticleEntity(
+                    uid = auth.uid!!,
+                    nickName = nickName.value,
+                    category = selectedText,
+                    companyName = companyName.value,
+                    content = content.value
+
+                )
+                viewModel.writeArticle(articleEntity)
+                if (viewModel.writingState.value) {
+                    navController.navigate(Screen.Main.route)
+                }
+
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF81BE4E)
             )
@@ -165,52 +228,3 @@ fun WritingScreen(
     }
 }
 
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DropDownMenu() {
-    var expanded by remember { mutableStateOf(false) }
-
-    var selectedText by remember { mutableStateOf(options[0]) }
-
-    var textfieldSize by remember { mutableStateOf(Size.Zero) }
-
-    val icon = Icons.Filled.ArrowDropDown
-
-
-    Box() {
-        OutlinedTextField(
-            readOnly = true,
-            value = selectedText,
-            onValueChange = { selectedText = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .onGloballyPositioned { coordinates ->
-                    //This value is used to assign to the DropDown the same width
-                    textfieldSize = coordinates.size.toSize()
-                },
-            label = { Text("Label") },
-            trailingIcon = {
-                Icon(icon, "contentDescription",
-                    Modifier.clickable { expanded = !expanded })
-            }
-        )
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier
-                .width(with(LocalDensity.current) { textfieldSize.width.toDp() })
-        ) {
-            options.forEach { label ->
-                DropdownMenuItem(
-                    onClick = {
-                        selectedText = label
-                        expanded = false
-                    },
-                    text = { Text(text = label) }
-                )
-
-            }
-        }
-    }
-}
