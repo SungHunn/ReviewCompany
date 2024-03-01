@@ -3,11 +3,18 @@ package com.example.reviewcompany.presentation.screen
 import android.annotation.SuppressLint
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
@@ -18,6 +25,7 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
@@ -32,17 +40,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.reviewcompany.R
+import com.example.reviewcompany.data.ArticleEntity
 import com.example.reviewcompany.presentation.screen.navigation.Screen
+import com.example.reviewcompany.ui.theme.ReviewCompanyTheme
 import com.google.firebase.auth.FirebaseAuth
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -51,6 +64,7 @@ import com.google.firebase.auth.FirebaseAuth
 fun MainScreen(
     navController: NavController,
     auth: FirebaseAuth,
+    viewModel: MainViewModel
 ) {
 
     Scaffold(
@@ -106,9 +120,9 @@ fun MainScreen(
                 onClick = {
                     navController.navigate(Screen.Writing.route)
                 }
-                ) {
+            ) {
                 Column(modifier = Modifier.padding(5.dp)) {
-                    
+
                     Icon(
                         painter = painterResource(id = R.drawable.baseline_thumbs_up_down_24),
                         contentDescription = "글 작성",
@@ -121,53 +135,100 @@ fun MainScreen(
         },
         floatingActionButtonPosition = FabPosition.End
     ) {
-        Column(Modifier.padding(it)) {
+        LazyColumn(
+            modifier = Modifier.padding(top = 70.dp)
+        ) {
+            item {
+                Article(
+                    nickName = "park",
+                    category = "IT / 개발",
+                    companyName = "Naver",
+                    content = "매우 좋았습니다."
+                )
+            }
 
+            item {
+                Article(
+                    nickName = "park",
+                    category = "IT / 개발",
+                    companyName = "Naver",
+                    content = "매우 좋았습니다."
+                )
+            }
 
+            item {
+                Article(
+                    nickName = "park",
+                    category = "IT / 개발",
+                    companyName = "Naver",
+                    content = "매우 좋았습니다."
+                )
+            }
+
+            item {
+                Article(
+                    nickName = "park",
+                    category = "IT / 개발",
+                    companyName = "Naver",
+                    content = "매우 좋았습니다."
+                )
+            }
         }
 
     }
 }
 
-//@Composable
-//fun logoutDialog(
-//    onDismissRequest: () -> Unit,
-//    onConfirmation: () -> Unit,
-//) {
-//    AlertDialog(
-//        icon = {
-//            Icon(
-//                imageVector = Icons.Filled.ExitToApp,
-//                contentDescription = "Logout Icon"
-//            )
-//        },
-//        title = {
-//            Text(text = "Logout")
-//        },
-//        text = {
-//            Text(text = "로그 아웃 하시겠습니까?")
-//        },
-//        onDismissRequest = {
-//            onDismissRequest()
-//        },
-//        confirmButton = {
-//            TextButton(
-//                onClick = {
-//                    onConfirmation()
-//                }
-//            ) {
-//                Text("예")
-//            }
-//        },
-//        dismissButton = {
-//            TextButton(
-//                onClick = {
-//                    onDismissRequest()
-//                }
-//            ) {
-//                Text("아니오")
-//            }
-//        }
-//    )
-//}
-//
+@Composable
+fun Article(
+    nickName: String,
+    category: String,
+    companyName: String,
+    content: String,
+) {
+        Column(
+            horizontalAlignment = Alignment.Start,
+            modifier = Modifier.padding(start = 5.dp, end = 5.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp)
+                    .padding(start = 15.dp, end = 15.dp)
+                    .background(Color(0xFFFFFFFF))
+            ) {
+                Column(
+                    modifier = Modifier.padding(start = 5.dp, end = 5.dp)
+                ) {
+                    Text(text = "작성자 : ${nickName}")
+                    Text(text = "직종 : ${category}")
+                    Text(text = "회사 이름 : ${companyName}")
+                    Text(text = "후기 : ${content}", maxLines = 1, overflow = TextOverflow.Ellipsis)
+                }
+
+            }
+
+            Divider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 15.dp, end = 15.dp)
+                    .background(Color.Black),
+                thickness = 2.dp,
+
+            )
+        }
+
+
+}
+
+@Preview
+@Composable
+fun ArticlePreview() {
+    ReviewCompanyTheme {
+        Article(
+            nickName = "park",
+            category = "IT / 개발",
+            companyName = "Naver",
+            content = "매우 좋았습니다."
+        )
+    }
+}
