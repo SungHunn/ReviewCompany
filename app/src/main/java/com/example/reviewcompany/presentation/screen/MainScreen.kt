@@ -53,6 +53,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.reviewcompany.R
 import com.example.reviewcompany.data.ArticleEntity
 import com.example.reviewcompany.presentation.screen.navigation.Screen
@@ -151,10 +152,14 @@ fun MainScreen(
             items(list.size) {
 
                 Article(
+                    uid = list[it].uid,
                     nickName = list[it].nickName,
                     category = list[it].category,
                     companyName = list[it].companyName,
-                    content = list[it].content)
+                    content = list[it].content,
+                    navController
+                )
+
             }
         }
 
@@ -163,10 +168,13 @@ fun MainScreen(
 
 @Composable
 fun Article(
+    uid : String,
     nickName: String,
     category: String,
     companyName: String,
     content: String,
+    navController: NavController,
+
 ) {
         Column(
             horizontalAlignment = Alignment.Start,
@@ -178,6 +186,20 @@ fun Article(
                     .height(100.dp)
                     .padding(start = 15.dp, end = 15.dp)
                     .background(Color(0xFFFFFFFF))
+                    .clickable {
+
+                        val article = ArticleEntity(
+                            uid = uid,
+                            nickName = nickName,
+                            category = category,
+                            companyName = companyName,
+                            content = content
+
+                        )
+
+                        navController.currentBackStackEntry?.savedStateHandle?.set("article", article)
+                        navController.navigate(Screen.Article.route)
+                    }
             ) {
                 Column(
                     modifier = Modifier.padding(start = 5.dp, end = 5.dp)
@@ -201,17 +223,4 @@ fun Article(
         }
 
 
-}
-
-@Preview
-@Composable
-fun ArticlePreview() {
-    ReviewCompanyTheme {
-        Article(
-            nickName = "park",
-            category = "IT / 개발",
-            companyName = "Naver",
-            content = "매우 좋았습니다."
-        )
-    }
 }

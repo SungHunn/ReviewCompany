@@ -12,6 +12,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -19,11 +20,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.reviewcompany.data.ArticleEntity
+import com.example.reviewcompany.presentation.screen.ArticleScreen
 import com.example.reviewcompany.presentation.screen.LoginScreen
 import com.example.reviewcompany.presentation.screen.MainScreen
 import com.example.reviewcompany.presentation.screen.SignUpScreen
 import com.example.reviewcompany.presentation.screen.WritingScreen
 import com.example.reviewcompany.presentation.screen.navigation.Screen
+import com.example.reviewcompany.presentation.viewmodel.ArticleViewModel
 import com.example.reviewcompany.presentation.viewmodel.LoginViewModel
 import com.example.reviewcompany.presentation.viewmodel.MainViewModel
 import com.example.reviewcompany.presentation.viewmodel.SignUpViewModel
@@ -43,6 +47,7 @@ class MainActivity : ComponentActivity() {
     private val loginViewModel: LoginViewModel by viewModels()
     private val writingViewModel: WritingViewModel by viewModels()
     private val mainViewModel: MainViewModel by viewModels()
+    private val articleViewModel: ArticleViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +81,7 @@ class MainActivity : ComponentActivity() {
                         composable(
                             route = Screen.Main.route
                         ) {
+
                             MainScreen(
                                 navController,
                                 auth,
@@ -99,6 +105,13 @@ class MainActivity : ComponentActivity() {
                             route = Screen.Writing.route
                         ) {
                             WritingScreen(navController, auth, writingViewModel)
+                        }
+
+                        composable(
+                            route = Screen.Article.route
+                        ) {
+                            val article = navController.previousBackStackEntry?.savedStateHandle?.get<ArticleEntity>("article")
+                            ArticleScreen(navController, auth, articleViewModel, article)
                         }
                     }
                 }
