@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -24,6 +25,7 @@ import com.example.reviewcompany.presentation.screen.SignUpScreen
 import com.example.reviewcompany.presentation.screen.WritingScreen
 import com.example.reviewcompany.presentation.screen.navigation.Screen
 import com.example.reviewcompany.presentation.viewmodel.LoginViewModel
+import com.example.reviewcompany.presentation.viewmodel.MainViewModel
 import com.example.reviewcompany.presentation.viewmodel.SignUpViewModel
 import com.example.reviewcompany.presentation.viewmodel.WritingViewModel
 import com.example.reviewcompany.ui.theme.ReviewCompanyTheme
@@ -40,6 +42,7 @@ class MainActivity : ComponentActivity() {
     private val signUpViewModel: SignUpViewModel by viewModels()
     private val loginViewModel: LoginViewModel by viewModels()
     private val writingViewModel: WritingViewModel by viewModels()
+    private val mainViewModel: MainViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +56,8 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
 
                 Log.e("auth", "${auth.currentUser?.uid}")
+
+                mainViewModel.getArticle()
 
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -71,7 +76,11 @@ class MainActivity : ComponentActivity() {
                         composable(
                             route = Screen.Main.route
                         ) {
-                            MainScreen(navController, auth)
+                            MainScreen(
+                                navController,
+                                auth,
+                                firebaseList = mainViewModel.firebaseList
+                            )
                         }
 
                         composable(

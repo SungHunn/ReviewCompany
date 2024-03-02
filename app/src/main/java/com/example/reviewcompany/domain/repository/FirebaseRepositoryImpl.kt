@@ -3,6 +3,7 @@ package com.example.reviewcompany.domain.repository
 import com.example.reviewcompany.data.ArticleEntity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -42,5 +43,14 @@ class FirebaseRepositoryImpl @Inject constructor(
             e.printStackTrace()
             false
         }
+    }
+
+    override suspend fun getArticle(): QuerySnapshot {
+        val dbResult = firebaseAuth.currentUser?.let {
+            firebaseDb.collection("article")
+                .get()
+                .await()
+        }
+        return dbResult!!
     }
 }

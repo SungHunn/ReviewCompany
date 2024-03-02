@@ -36,6 +36,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,8 +56,13 @@ import androidx.navigation.compose.composable
 import com.example.reviewcompany.R
 import com.example.reviewcompany.data.ArticleEntity
 import com.example.reviewcompany.presentation.screen.navigation.Screen
+import com.example.reviewcompany.presentation.viewmodel.MainViewModel
 import com.example.reviewcompany.ui.theme.ReviewCompanyTheme
+import com.google.android.play.integrity.internal.f
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.StateFlow
+
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -64,8 +70,11 @@ import com.google.firebase.auth.FirebaseAuth
 fun MainScreen(
     navController: NavController,
     auth: FirebaseAuth,
-    viewModel: MainViewModel
+    firebaseList: StateFlow<List<ArticleEntity>>
 ) {
+
+    val list = firebaseList.collectAsState().value
+
 
     Scaffold(
         topBar = {
@@ -138,40 +147,14 @@ fun MainScreen(
         LazyColumn(
             modifier = Modifier.padding(top = 70.dp)
         ) {
-            item {
-                Article(
-                    nickName = "park",
-                    category = "IT / 개발",
-                    companyName = "Naver",
-                    content = "매우 좋았습니다."
-                )
-            }
 
-            item {
-                Article(
-                    nickName = "park",
-                    category = "IT / 개발",
-                    companyName = "Naver",
-                    content = "매우 좋았습니다."
-                )
-            }
+            items(list.size) {
 
-            item {
                 Article(
-                    nickName = "park",
-                    category = "IT / 개발",
-                    companyName = "Naver",
-                    content = "매우 좋았습니다."
-                )
-            }
-
-            item {
-                Article(
-                    nickName = "park",
-                    category = "IT / 개발",
-                    companyName = "Naver",
-                    content = "매우 좋았습니다."
-                )
+                    nickName = list[it].nickName,
+                    category = list[it].category,
+                    companyName = list[it].companyName,
+                    content = list[it].content)
             }
         }
 
