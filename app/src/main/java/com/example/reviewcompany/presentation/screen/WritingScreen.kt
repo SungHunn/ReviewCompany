@@ -204,6 +204,7 @@ fun WritingScreen(
                 .padding(start = 10.dp, end = 10.dp, bottom = 20.dp),
             onClick = {
                 val articleEntity = ArticleEntity(
+                    articleId = "${auth.uid!!} + ${companyName.value}",
                     uid = auth.uid!!,
                     nickName = nickName.value,
                     category = selectedText,
@@ -212,9 +213,8 @@ fun WritingScreen(
 
                 )
                 viewModel.writeArticle(articleEntity)
-                if (viewModel.writingState.value) {
-                    navController.navigate(Screen.Main.route)
-                }
+                navController.navigate(Screen.Main.route)
+
 
             },
             colors = ButtonDefaults.buttonColors(

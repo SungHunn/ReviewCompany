@@ -49,7 +49,7 @@ fun ArticleScreen(
     navController: NavController,
     auth: FirebaseAuth,
     viewModel: ArticleViewModel,
-    articleEntity: ArticleEntity?
+    articleEntity: ArticleEntity?,
 ) {
     Column(
         modifier = Modifier
@@ -58,84 +58,94 @@ fun ArticleScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Text(text = "${articleEntity?.articleId}")
+
         Spacer(modifier = Modifier.padding(10.dp))
 
         Row(
 
         ) {
 
-            OutlinedTextField(
-                readOnly = true,
-                value = articleEntity?.nickName!!,
-                onValueChange = {},
-                shape = RoundedCornerShape(8.dp),
-                label = {
-                    Text(text = "nickname")
-                },
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    Color.Black
-                ),
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 10.dp)
-            )
+            articleEntity?.nickName?.let {
+                OutlinedTextField(
+                    readOnly = true,
+                    value = it,
+                    onValueChange = {},
+                    shape = RoundedCornerShape(8.dp),
+                    label = {
+                        Text(text = "nickname")
+                    },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        Color.Black
+                    ),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 10.dp)
+                )
+            }
             Spacer(modifier = Modifier.padding(8.dp))
 
-            OutlinedTextField(
-                readOnly = true,
-                value = articleEntity?.category!!,
-                onValueChange = {},
-                shape = RoundedCornerShape(8.dp),
-                label = {
-                    Text(text = "category")
-                },
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    Color.Black
-                ),
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 10.dp)
-            )
+            articleEntity?.category?.let {
+                OutlinedTextField(
+                    readOnly = true,
+                    value = it,
+                    onValueChange = {},
+                    shape = RoundedCornerShape(8.dp),
+                    label = {
+                        Text(text = "category")
+                    },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        Color.Black
+                    ),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 10.dp)
+                )
+            }
 
 
         }
 
         Spacer(modifier = Modifier.padding(10.dp))
 
-        OutlinedTextField(
-            readOnly = true,
-            value = articleEntity?.companyName!!,
-            onValueChange = {},
-            shape = RoundedCornerShape(8.dp),
-            label = {
-                Text(text = "company Name")
-            },
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                Color.Black
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 10.dp, end = 10.dp)
-        )
+        articleEntity?.companyName?.let {
+            OutlinedTextField(
+                readOnly = true,
+                value = it,
+                onValueChange = {},
+                shape = RoundedCornerShape(8.dp),
+                label = {
+                    Text(text = "company Name")
+                },
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    Color.Black
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, end = 10.dp)
+            )
+        }
 
         Spacer(modifier = Modifier.padding(20.dp))
 
-        OutlinedTextField(
-            readOnly = true,
-            value = articleEntity?.content!!,
-            onValueChange = {},
-            shape = RoundedCornerShape(8.dp),
-            label = {
-                Text(text = "content")
-            },
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                Color.Black
-            ),
-            modifier = Modifier
-                .weight(2f)
-                .fillMaxWidth()
-                .padding(start = 10.dp, end = 10.dp)
-        )
+        articleEntity?.content?.let {
+            OutlinedTextField(
+                readOnly = true,
+                value = it,
+                onValueChange = {},
+                shape = RoundedCornerShape(8.dp),
+                label = {
+                    Text(text = "content")
+                },
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    Color.Black
+                ),
+                modifier = Modifier
+                    .weight(2f)
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, end = 10.dp)
+            )
+        }
 
         Spacer(modifier = Modifier.weight(1f))
 
@@ -144,7 +154,12 @@ fun ArticleScreen(
                 .weight(0.5f)
                 .fillMaxWidth()
                 .padding(start = 10.dp, end = 10.dp, bottom = 20.dp),
-            onClick = { },
+            onClick = {
+                viewModel.deleteArticle(articleEntity)
+                navController.navigate(Screen.Main.route)
+
+
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF81BE4E)
             )

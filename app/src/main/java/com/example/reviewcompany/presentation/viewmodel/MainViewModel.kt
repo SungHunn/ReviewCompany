@@ -20,7 +20,11 @@ class MainViewModel @Inject constructor(
     private val _firebaseList = MutableStateFlow<List<ArticleEntity>>(listOf())
     val firebaseList: StateFlow<List<ArticleEntity>> = _firebaseList.asStateFlow()
 
+    private val _firebaseId = MutableStateFlow<List<String>>(listOf())
+    val firebaseId : StateFlow<List<String>> = _firebaseId.asStateFlow()
+
     private val articleList = mutableListOf<ArticleEntity>()
+    private val idList = mutableListOf<String>()
 
     fun getArticle() =
         viewModelScope.launch {
@@ -28,16 +32,25 @@ class MainViewModel @Inject constructor(
                 _firebaseList.value = _firebaseList.value.toMutableList().also {
                     it.clear()
                 }
+
+                _firebaseId.value = _firebaseId.value.toMutableList().also {
+                    it.clear()
+                }
+
+
                 articleList.clear()
+                idList.clear()
 
                 val results = firebaseRepository.getArticle()
                 for (result in results) {
                     val item = result.toObject(ArticleEntity::class.java)
+
                     articleList.add(item)
+                    idList.add(result.id)
 
                 }
                 _firebaseList.emit(articleList)
-                Log.e("ArticleViewModel", "${_firebaseList.value.size}")
+                _firebaseId.emit(idList)
 
 
             } catch (e: Exception) {

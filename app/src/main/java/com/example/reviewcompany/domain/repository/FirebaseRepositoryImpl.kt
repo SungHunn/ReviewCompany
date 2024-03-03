@@ -36,7 +36,8 @@ class FirebaseRepositoryImpl @Inject constructor(
         return try {
             firebaseAuth.currentUser?.let {
                 firebaseDb.collection("article")
-                    .add(articleEntity).await()
+                    .document("${articleEntity.uid} + ${articleEntity.companyName}")
+                    .set(articleEntity).await()
             }
             true
         } catch (e: Exception) {
@@ -52,5 +53,20 @@ class FirebaseRepositoryImpl @Inject constructor(
                 .await()
         }
         return dbResult!!
+    }
+
+    override suspend fun deleteArticle(articleEntity: ArticleEntity?): Boolean {
+        return try {
+            val results = getArticle()
+            for (result in results) {
+                if (result.id == articleEntity?.articleId) {
+                    result.reference.delete()
+                }
+            }
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
     }
 }

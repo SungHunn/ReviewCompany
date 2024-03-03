@@ -85,7 +85,8 @@ class MainActivity : ComponentActivity() {
                             MainScreen(
                                 navController,
                                 auth,
-                                firebaseList = mainViewModel.firebaseList
+                                firebaseList = mainViewModel.firebaseList,
+                                idList = mainViewModel.firebaseId
                             )
                         }
 

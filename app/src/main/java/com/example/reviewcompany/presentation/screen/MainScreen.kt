@@ -71,11 +71,12 @@ import kotlinx.coroutines.flow.StateFlow
 fun MainScreen(
     navController: NavController,
     auth: FirebaseAuth,
-    firebaseList: StateFlow<List<ArticleEntity>>
+    firebaseList: StateFlow<List<ArticleEntity>>,
+    idList: StateFlow<List<String>>
 ) {
 
     val list = firebaseList.collectAsState().value
-
+    val idList = idList.collectAsState().value
 
     Scaffold(
         topBar = {
@@ -152,6 +153,7 @@ fun MainScreen(
             items(list.size) {
 
                 Article(
+                    articleId = idList[it],
                     uid = list[it].uid,
                     nickName = list[it].nickName,
                     category = list[it].category,
@@ -168,6 +170,7 @@ fun MainScreen(
 
 @Composable
 fun Article(
+    articleId: String,
     uid : String,
     nickName: String,
     category: String,
@@ -189,6 +192,7 @@ fun Article(
                     .clickable {
 
                         val article = ArticleEntity(
+                            articleId = articleId,
                             uid = uid,
                             nickName = nickName,
                             category = category,

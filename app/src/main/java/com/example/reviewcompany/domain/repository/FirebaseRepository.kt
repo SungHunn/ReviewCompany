@@ -13,5 +13,7 @@ interface FirebaseRepository {
 
     suspend fun getArticle(): QuerySnapshot
 
+    suspend fun deleteArticle(articleEntity: ArticleEntity?) : Boolean
+
 
 }
