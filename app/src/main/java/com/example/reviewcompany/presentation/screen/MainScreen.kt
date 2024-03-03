@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -172,7 +173,7 @@ fun Article(
                 .fillMaxWidth()
                 .height(100.dp)
                 .padding(start = 15.dp, end = 15.dp)
-                .background(Color(0xFFFFFFFF))
+                .background(Color(0xFFC7E5A3))
                 .clickable {
 
                     val article = ArticleEntity(
@@ -208,6 +209,8 @@ fun Article(
             thickness = 2.dp,
 
             )
+
+        Spacer(modifier = Modifier.padding(10.dp).background(Color.White))
     }
 
 

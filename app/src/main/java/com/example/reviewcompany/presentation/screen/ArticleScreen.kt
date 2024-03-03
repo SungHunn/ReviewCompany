@@ -58,7 +58,7 @@ fun ArticleScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "${articleEntity?.articleId}")
+        //Text(text = "${articleEntity?.articleId}")
 
         Spacer(modifier = Modifier.padding(10.dp))
 
