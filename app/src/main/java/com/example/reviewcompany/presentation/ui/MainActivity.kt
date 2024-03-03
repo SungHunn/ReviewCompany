@@ -27,6 +27,7 @@ import com.example.reviewcompany.presentation.screen.MainScreen
 import com.example.reviewcompany.presentation.screen.SignUpScreen
 import com.example.reviewcompany.presentation.screen.WritingScreen
 import com.example.reviewcompany.presentation.screen.navigation.Screen
+import com.example.reviewcompany.presentation.screen.navigation.navGraph
 import com.example.reviewcompany.presentation.viewmodel.ArticleViewModel
 import com.example.reviewcompany.presentation.viewmodel.LoginViewModel
 import com.example.reviewcompany.presentation.viewmodel.MainViewModel
@@ -62,59 +63,20 @@ class MainActivity : ComponentActivity() {
 
                 Log.e("auth", "${auth.currentUser?.uid}")
 
-                mainViewModel.getArticle()
+
 
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NavHost(
-                        navController = navController,
-                        startDestination =
-                        if (auth.currentUser == null) {
-                            Screen.Login.route
-                        } else {
-                            Screen.Main.route
-                        }
-                    ) {
-
-                        composable(
-                            route = Screen.Main.route
-                        ) {
-
-                            MainScreen(
-                                navController,
-                                auth,
-                                firebaseList = mainViewModel.firebaseList,
-                                idList = mainViewModel.firebaseId
-                            )
-                        }
-
-                        composable(
-                            route = Screen.Login.route
-                        ) {
-                            LoginScreen(navController, loginViewModel)
-                        }
-
-                        composable(
-                            route = Screen.SignUp.route
-                        ) {
-                            SignUpScreen(navController, signUpViewModel)
-                        }
-
-                        composable(
-                            route = Screen.Writing.route
-                        ) {
-                            WritingScreen(navController, auth, writingViewModel)
-                        }
-
-                        composable(
-                            route = Screen.Article.route
-                        ) {
-                            val article = navController.previousBackStackEntry?.savedStateHandle?.get<ArticleEntity>("article")
-                            ArticleScreen(navController, auth, articleViewModel, article)
-                        }
-                    }
+                    navGraph(
+                        auth = auth,
+                        mainViewModel = mainViewModel,
+                        loginViewModel = loginViewModel,
+                        signUpViewModel = signUpViewModel,
+                        writingViewModel = writingViewModel,
+                        articleViewModel = articleViewModel
+                    )
                 }
             }
         }

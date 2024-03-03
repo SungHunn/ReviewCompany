@@ -2,13 +2,10 @@ package com.example.reviewcompany.presentation.screen
 
 import android.annotation.SuppressLint
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,14 +13,7 @@ import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Share
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,35 +23,22 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.example.reviewcompany.R
 import com.example.reviewcompany.data.ArticleEntity
 import com.example.reviewcompany.presentation.screen.navigation.Screen
 import com.example.reviewcompany.presentation.viewmodel.MainViewModel
-import com.example.reviewcompany.ui.theme.ReviewCompanyTheme
-import com.google.android.play.integrity.internal.f
 import com.google.firebase.auth.FirebaseAuth
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
 
 
@@ -71,12 +48,18 @@ import kotlinx.coroutines.flow.StateFlow
 fun MainScreen(
     navController: NavController,
     auth: FirebaseAuth,
+    viewModel: MainViewModel,
     firebaseList: StateFlow<List<ArticleEntity>>,
-    idList: StateFlow<List<String>>
+    idList: StateFlow<List<String>>,
 ) {
+    LaunchedEffect(key1 = 1){
+        viewModel.getArticle()
+    }
+
 
     val list = firebaseList.collectAsState().value
     val idList = idList.collectAsState().value
+    Log.e("test", "${list.size}")
 
     Scaffold(
         topBar = {
@@ -162,6 +145,7 @@ fun MainScreen(
                     navController
                 )
 
+
             }
         }
 
@@ -171,60 +155,60 @@ fun MainScreen(
 @Composable
 fun Article(
     articleId: String,
-    uid : String,
+    uid: String,
     nickName: String,
     category: String,
     companyName: String,
     content: String,
     navController: NavController,
 
-) {
-        Column(
-            horizontalAlignment = Alignment.Start,
-            modifier = Modifier.padding(start = 5.dp, end = 5.dp)
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp)
-                    .padding(start = 15.dp, end = 15.dp)
-                    .background(Color(0xFFFFFFFF))
-                    .clickable {
+    ) {
+    Column(
+        horizontalAlignment = Alignment.Start,
+        modifier = Modifier.padding(start = 5.dp, end = 5.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+                .padding(start = 15.dp, end = 15.dp)
+                .background(Color(0xFFFFFFFF))
+                .clickable {
 
-                        val article = ArticleEntity(
-                            articleId = articleId,
-                            uid = uid,
-                            nickName = nickName,
-                            category = category,
-                            companyName = companyName,
-                            content = content
+                    val article = ArticleEntity(
+                        articleId = articleId,
+                        uid = uid,
+                        nickName = nickName,
+                        category = category,
+                        companyName = companyName,
+                        content = content
 
-                        )
+                    )
 
-                        navController.currentBackStackEntry?.savedStateHandle?.set("article", article)
-                        navController.navigate(Screen.Article.route)
-                    }
-            ) {
-                Column(
-                    modifier = Modifier.padding(start = 5.dp, end = 5.dp)
-                ) {
-                    Text(text = "작성자 : ${nickName}")
-                    Text(text = "직종 : ${category}")
-                    Text(text = "회사 이름 : ${companyName}")
-                    Text(text = "후기 : ${content}", maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    navController.currentBackStackEntry?.savedStateHandle?.set("article", article)
+                    navController.navigate(Screen.Article.route)
                 }
-
+        ) {
+            Column(
+                modifier = Modifier.padding(start = 5.dp, end = 5.dp)
+            ) {
+                Text(text = "작성자 : ${nickName}")
+                Text(text = "직종 : ${category}")
+                Text(text = "회사 이름 : ${companyName}")
+                Text(text = "후기 : ${content}", maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
 
-            Divider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 15.dp, end = 15.dp)
-                    .background(Color.Black),
-                thickness = 2.dp,
+        }
+
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 15.dp, end = 15.dp)
+                .background(Color.Black),
+            thickness = 2.dp,
 
             )
-        }
+    }
 
 
 }
