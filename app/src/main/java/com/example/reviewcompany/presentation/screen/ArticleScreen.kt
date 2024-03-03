@@ -1,5 +1,7 @@
 package com.example.reviewcompany.presentation.screen
 
+import android.widget.Space
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,6 +62,15 @@ fun ArticleScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         //Text(text = "${articleEntity?.articleId}")
+        val editable = rememberSaveable { mutableStateOf(true) }
+        var isVisible by remember { mutableStateOf(false) }
+
+        var editNickname by remember { mutableStateOf(articleEntity?.nickName) }
+        var editCompanyName by remember { mutableStateOf(articleEntity?.companyName) }
+        var editContent by remember { mutableStateOf(articleEntity?.content) }
+
+
+
 
         Spacer(modifier = Modifier.padding(10.dp))
 
@@ -68,9 +80,11 @@ fun ArticleScreen(
 
             articleEntity?.nickName?.let {
                 OutlinedTextField(
-                    readOnly = true,
-                    value = it,
-                    onValueChange = {},
+                    readOnly = editable.value,
+                    value = editNickname!!,
+                    onValueChange = {
+                        editNickname = it
+                    },
                     shape = RoundedCornerShape(8.dp),
                     label = {
                         Text(text = "nickname")
@@ -110,9 +124,11 @@ fun ArticleScreen(
 
         articleEntity?.companyName?.let {
             OutlinedTextField(
-                readOnly = true,
-                value = it,
-                onValueChange = {},
+                readOnly = editable.value,
+                value = editCompanyName!!,
+                onValueChange = {
+                    editCompanyName = it
+                },
                 shape = RoundedCornerShape(8.dp),
                 label = {
                     Text(text = "company Name")
@@ -130,9 +146,11 @@ fun ArticleScreen(
 
         articleEntity?.content?.let {
             OutlinedTextField(
-                readOnly = true,
-                value = it,
-                onValueChange = {},
+                readOnly = editable.value,
+                value = editContent!!,
+                onValueChange = {
+                    editContent = it
+                },
                 shape = RoundedCornerShape(8.dp),
                 label = {
                     Text(text = "content")
@@ -149,22 +167,70 @@ fun ArticleScreen(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Button(
-            modifier = Modifier
-                .weight(0.5f)
-                .fillMaxWidth()
-                .padding(start = 10.dp, end = 10.dp, bottom = 20.dp),
-            onClick = {
-                viewModel.deleteArticle(articleEntity)
-                navController.navigate(Screen.Main.route)
+        Row(horizontalArrangement = Arrangement.Start) {
+            AnimatedVisibility(
+                visible = isVisible,
+
+                ) {
+                Button(onClick = {
+                    viewModel.editArticle(
+                        ArticleEntity(
+                            articleId = articleEntity?.articleId!!,
+                            uid = auth.currentUser?.uid!!,
+                            nickName = editNickname!!,
+                            category = articleEntity?.category!!,
+                            companyName = editCompanyName!!,
+                            content = editContent!!
+                        )
+                    )
+                    navController.navigate(Screen.Main.route)
+                }) {
+                    Text(text = "수정 완료 ")
+                }
+
+            }
+        }
 
 
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF81BE4E)
-            )
-        ) {
-            Text("삭제하기")
+
+        Row() {
+            Button(
+                modifier = Modifier
+                    .weight(0.5f)
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, end = 10.dp, bottom = 20.dp),
+                onClick = {
+                    editable.value = false
+                    isVisible = true
+
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF81BE4E)
+                )
+            ) {
+                Text("수정")
+            }
+
+            Spacer(modifier = Modifier.padding(20.dp))
+
+            Button(
+                modifier = Modifier
+                    .weight(0.5f)
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, end = 10.dp, bottom = 20.dp),
+                onClick = {
+                    viewModel.deleteArticle(articleEntity)
+                    navController.navigate(Screen.Main.route)
+
+
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF81BE4E)
+                )
+            ) {
+                Text("삭제")
+            }
+
         }
 
 

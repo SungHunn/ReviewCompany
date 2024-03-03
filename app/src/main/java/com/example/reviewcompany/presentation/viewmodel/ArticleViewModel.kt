@@ -29,4 +29,13 @@ class ArticleViewModel @Inject constructor(
         }
     }
 
+    fun editArticle(articleEntity: ArticleEntity?) = viewModelScope.launch {
+
+        try {
+            repository.editArticle(articleEntity)
+        } catch (e: Exception) {
+            Log.e("Write", e.toString())
+        }
+    }
+
 }

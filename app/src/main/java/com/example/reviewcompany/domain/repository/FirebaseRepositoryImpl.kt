@@ -69,4 +69,21 @@ class FirebaseRepositoryImpl @Inject constructor(
             false
         }
     }
+
+    override suspend fun editArticle(articleEntity: ArticleEntity?): Boolean {
+        return try {
+            val results = getArticle()
+            for (result in results) {
+                if (result.id == articleEntity?.articleId) {
+                    firebaseDb.collection("article")
+                        .document("${articleEntity.uid} + ${articleEntity.companyName}")
+                        .set(articleEntity).await()
+                }
+            }
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
 }

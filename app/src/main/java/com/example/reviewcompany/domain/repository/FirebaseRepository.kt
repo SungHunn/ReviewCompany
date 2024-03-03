@@ -15,5 +15,7 @@ interface FirebaseRepository {
 
     suspend fun deleteArticle(articleEntity: ArticleEntity?) : Boolean
 
+    suspend fun editArticle(articleEntity: ArticleEntity?) : Boolean
+
 
 }
