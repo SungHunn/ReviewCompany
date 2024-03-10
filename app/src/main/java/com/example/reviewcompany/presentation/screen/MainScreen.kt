@@ -2,7 +2,9 @@ package com.example.reviewcompany.presentation.screen
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,8 +15,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.AlertDialogDefaults.shape
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -30,6 +35,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -166,14 +172,14 @@ fun Article(
     ) {
     Column(
         horizontalAlignment = Alignment.Start,
-        modifier = Modifier.padding(start = 5.dp, end = 5.dp)
+        modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 5.dp, bottom = 5.dp)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(100.dp)
-                .padding(start = 15.dp, end = 15.dp)
-                .background(Color(0xFFC7E5A3))
+                .height(130.dp)
+                .padding(10.dp)
+                .border(BorderStroke(1.dp, Color(0xFF86C73A)),shape = RoundedCornerShape(15.dp))
                 .clickable {
 
                     val article = ArticleEntity(
@@ -191,7 +197,7 @@ fun Article(
                 }
         ) {
             Column(
-                modifier = Modifier.padding(start = 5.dp, end = 5.dp)
+                modifier = Modifier.padding(start = 5.dp, end = 5.dp,top = 5.dp)
             ) {
                 Text(text = "작성자 : ${nickName}")
                 Text(text = "직종 : ${category}")
