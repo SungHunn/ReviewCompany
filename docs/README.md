@@ -1,10 +1,10 @@
 # 기능 목록
     
-1. 의존성 주입을 위한 Hilt 연결하기 [o]
+1. 의존성 주입을 위한 Hilt 연결하기 
 
-2. DB 사용을 위해 Firebase 연결하기 [o]
+2. DB 사용을 위해 Firebase 연결하기 
 
-3. SplashScreen [o]
+3. SplashScreen 
 
 4. Firebase를 통해 google login 연동하기
     - 연동 후에 앱 사용 시 로그인 되있으면 바로 메인페이지로 이동 , 아니면 로그인 화면 띄우기
@@ -15,7 +15,20 @@
 
 7. 내가 작성한 후기 수정 및 삭제 구현하기
 
-8. 메인 페이지에 회사 및 브랜드 검색 기능 구현하기
-
 ***
 
+- splash screen
+  
+![Untitled (4)](https://github.com/SungHunn/ReviewCompany/assets/86955873/ac107a97-7fd1-457e-8a10-b6ec487b0a9b)
+
+- login screen
+
+![Untitled (5)](https://github.com/SungHunn/ReviewCompany/assets/86955873/fd4fe345-5363-4bcc-a267-81babda9b055)
+
+- writing screen
+
+![Untitled (6)](https://github.com/SungHunn/ReviewCompany/assets/86955873/7ec23fd6-2a3c-4558-8df0-65e09329e07f)
+
+- main screen
+
+![Untitled (7)](https://github.com/SungHunn/ReviewCompany/assets/86955873/79bd6888-3fdd-4b6e-85da-940087624f4e)
