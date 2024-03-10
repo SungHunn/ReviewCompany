@@ -31,4 +31,4 @@
 
 - main screen
 
-![Untitled (7)](https://github.com/SungHunn/ReviewCompany/assets/86955873/79bd6888-3fdd-4b6e-85da-940087624f4e)
+![Untitled (16)](https://github.com/SungHunn/ReviewCompany/assets/86955873/2d961a80-31ff-4fe5-8739-4be257eea01d)
