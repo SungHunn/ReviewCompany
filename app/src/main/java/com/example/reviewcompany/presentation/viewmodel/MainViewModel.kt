@@ -21,7 +21,7 @@ class MainViewModel @Inject constructor(
     val firebaseList: StateFlow<List<ArticleEntity>> = _firebaseList.asStateFlow()
 
     private val _firebaseId = MutableStateFlow<List<String>>(listOf())
-    val firebaseId : StateFlow<List<String>> = _firebaseId.asStateFlow()
+    val firebaseId: StateFlow<List<String>> = _firebaseId.asStateFlow()
 
     private val articleList = mutableListOf<ArticleEntity>()
     private val idList = mutableListOf<String>()
