@@ -1,16 +1,12 @@
 package com.example.reviewcompany.presentation.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.runtime.Composable
 import androidx.navigation.compose.rememberNavController
-import com.example.reviewcompany.data.ArticleEntity
+import com.example.reviewcompany.domain.model.DomainArticle
 import com.example.reviewcompany.presentation.screen.ArticleScreen
-import com.example.reviewcompany.presentation.screen.navigation.Screen
 import com.example.reviewcompany.presentation.viewmodel.ArticleViewModel
 import com.example.reviewcompany.ui.theme.ReviewCompanyTheme
 import com.google.firebase.auth.FirebaseAuth
@@ -37,7 +33,7 @@ class ArticleActivity : ComponentActivity() {
                     navController = navController,
                     auth = auth,
                     viewModel = viewModel,
-                    articleEntity = ArticleEntity()
+                    articleEntity = DomainArticle()
                 )
             }
         }

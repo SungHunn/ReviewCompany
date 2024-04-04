@@ -13,13 +13,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.AlertDialogDefaults.shape
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,14 +32,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.reviewcompany.R
-import com.example.reviewcompany.data.ArticleEntity
+import com.example.reviewcompany.domain.model.DomainArticle
 import com.example.reviewcompany.presentation.screen.navigation.Screen
 import com.example.reviewcompany.presentation.viewmodel.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -56,7 +52,6 @@ fun MainScreen(
     navController: NavController,
     auth: FirebaseAuth,
     viewModel: MainViewModel,
-    firebaseList: StateFlow<List<ArticleEntity>>,
     idList: StateFlow<List<String>>,
 ) {
     LaunchedEffect(key1 = 1){
@@ -64,7 +59,7 @@ fun MainScreen(
     }
 
 
-    val list = firebaseList.collectAsState().value
+    val list = viewModel.firebaseList.collectAsState().value
     val idList = idList.collectAsState().value
     Log.e("test", "${list.size}")
 
@@ -182,7 +177,7 @@ fun Article(
                 .border(BorderStroke(1.dp, Color(0xFF86C73A)),shape = RoundedCornerShape(15.dp))
                 .clickable {
 
-                    val article = ArticleEntity(
+                    val article = DomainArticle(
                         articleId = articleId,
                         uid = uid,
                         nickName = nickName,

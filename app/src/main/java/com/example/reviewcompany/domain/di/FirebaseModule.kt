@@ -1,7 +1,8 @@
 package com.example.reviewcompany.domain.di
 
+import com.example.reviewcompany.data.remote.datasource.FirebaseDataSource
 import com.example.reviewcompany.domain.repository.FirebaseRepository
-import com.example.reviewcompany.domain.repository.FirebaseRepositoryImpl
+import com.example.reviewcompany.data.repository.FirebaseRepositoryImpl
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
@@ -26,7 +27,7 @@ object FirebaseModule {
 
     @Provides
     @Singleton
-    fun providesAuthRepositoryImpl(firebaseAuth: FirebaseAuth, fireStore: FirebaseFirestore): FirebaseRepository {
-        return FirebaseRepositoryImpl(firebaseAuth = firebaseAuth, firebaseDb = fireStore)
+    fun providesAuthRepositoryImpl(firebaseDataSource: FirebaseDataSource): FirebaseRepository {
+        return FirebaseRepositoryImpl(firebaseDataSource)
     }
 }

@@ -3,7 +3,7 @@ package com.example.reviewcompany.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.reviewcompany.data.ArticleEntity
+import com.example.reviewcompany.domain.model.DomainArticle
 import com.example.reviewcompany.domain.repository.FirebaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,13 +17,13 @@ class MainViewModel @Inject constructor(
     private val firebaseRepository: FirebaseRepository,
 ) : ViewModel() {
 
-    private val _firebaseList = MutableStateFlow<List<ArticleEntity>>(listOf())
-    val firebaseList: StateFlow<List<ArticleEntity>> = _firebaseList.asStateFlow()
+    private val _firebaseList = MutableStateFlow<List<DomainArticle>>(listOf())
+    val firebaseList: StateFlow<List<DomainArticle>> = _firebaseList.asStateFlow()
 
     private val _firebaseId = MutableStateFlow<List<String>>(listOf())
     val firebaseId: StateFlow<List<String>> = _firebaseId.asStateFlow()
 
-    private val articleList = mutableListOf<ArticleEntity>()
+    private val articleList = mutableListOf<DomainArticle>()
     private val idList = mutableListOf<String>()
 
     fun getArticle() =
@@ -43,7 +43,7 @@ class MainViewModel @Inject constructor(
 
                 val results = firebaseRepository.getArticle()
                 for (result in results) {
-                    val item = result.toObject(ArticleEntity::class.java)
+                    val item = result.toObject(DomainArticle::class.java)
 
                     articleList.add(item)
                     idList.add(result.id)

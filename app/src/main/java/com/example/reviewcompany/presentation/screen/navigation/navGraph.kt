@@ -1,11 +1,10 @@
 package com.example.reviewcompany.presentation.screen.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.reviewcompany.data.ArticleEntity
+import com.example.reviewcompany.domain.model.DomainArticle
 import com.example.reviewcompany.presentation.screen.ArticleScreen
 import com.example.reviewcompany.presentation.screen.LoginScreen
 import com.example.reviewcompany.presentation.screen.MainScreen
@@ -49,7 +48,6 @@ fun navGraph(
                 navController,
                 auth,
                 mainViewModel,
-                firebaseList = mainViewModel.firebaseList,
                 idList = mainViewModel.firebaseId
             )
         }
@@ -75,7 +73,7 @@ fun navGraph(
         composable(
             route = Screen.Article.route
         ) {
-            val article = navController.previousBackStackEntry?.savedStateHandle?.get<ArticleEntity>("article")
+            val article = navController.previousBackStackEntry?.savedStateHandle?.get<DomainArticle>("article")
             ArticleScreen(navController, auth, articleViewModel, article)
         }
     }

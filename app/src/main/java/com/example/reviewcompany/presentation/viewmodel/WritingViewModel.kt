@@ -3,7 +3,7 @@ package com.example.reviewcompany.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.reviewcompany.data.ArticleEntity
+import com.example.reviewcompany.domain.model.DomainArticle
 import com.example.reviewcompany.domain.repository.FirebaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +21,7 @@ class WritingViewModel @Inject constructor(
     val writingState: StateFlow<Boolean> = _writingState.asStateFlow()
 
 
-    fun writeArticle(articleEntity: ArticleEntity) = viewModelScope.launch {
+    fun writeArticle(articleEntity: DomainArticle) = viewModelScope.launch {
         viewModelScope.launch {
             try {
                 _writingState.emit(firebaseRepository.insertArticle(articleEntity))
