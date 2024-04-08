@@ -6,13 +6,17 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -34,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -54,7 +59,7 @@ fun MainScreen(
     viewModel: MainViewModel,
     idList: StateFlow<List<String>>,
 ) {
-    LaunchedEffect(key1 = 1){
+    LaunchedEffect(key1 = 1) {
         viewModel.getArticle()
     }
 
@@ -166,7 +171,6 @@ fun Article(
 
     ) {
     Column(
-        horizontalAlignment = Alignment.Start,
         modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 5.dp, bottom = 5.dp)
     ) {
         Box(
@@ -174,7 +178,7 @@ fun Article(
                 .fillMaxWidth()
                 .height(130.dp)
                 .padding(10.dp)
-                .border(BorderStroke(1.dp, Color(0xFF86C73A)),shape = RoundedCornerShape(15.dp))
+                .border(BorderStroke(2.dp, Color(0xFF86C73A)), shape = RoundedCornerShape(15.dp))
                 .clickable {
 
                     val article = DomainArticle(
@@ -189,29 +193,67 @@ fun Article(
 
                     navController.currentBackStackEntry?.savedStateHandle?.set("article", article)
                     navController.navigate(Screen.Article.route)
-                }
+                },
+            contentAlignment = Alignment.TopStart
         ) {
             Column(
-                modifier = Modifier.padding(start = 5.dp, end = 5.dp,top = 5.dp)
+                modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 5.dp)
             ) {
-                Text(text = "작성자 : ${nickName}")
-                Text(text = "직종 : ${category}")
-                Text(text = "회사 이름 : ${companyName}")
-                Text(text = "후기 : ${content}", maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row {
+                        Text(text = "작성자 : ")
+                        Text(text = "${nickName}", fontWeight = FontWeight.ExtraBold)
+                    }
+
+                    Divider(
+                        modifier = Modifier
+                            .height(20.dp)
+                            .width(2.dp),
+                        color = Color(0xFF86C73A),
+                    )
+                    Row {
+                        Text(text = "직종 : ")
+                        Text("${category}", fontWeight = FontWeight.ExtraBold)
+                    }
+
+                }
+                Divider(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    color = Color(0xFF86C73A),
+                    thickness = 2.dp,
+                )
+                Row {
+                    Text(text = "회사 이름 : ")
+                    Text("${companyName}", fontWeight = FontWeight.ExtraBold)
+                }
+                Divider(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    color = Color(0xFF86C73A),
+                    thickness = 2.dp,
+                )
+                Row {
+                    Text(text = "후기 : ")
+                    Text(
+                        "${content}",
+                        fontWeight = FontWeight.ExtraBold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+
             }
 
         }
-
-        Divider(
+        Spacer(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 15.dp, end = 15.dp)
-                .background(Color.Black),
-            thickness = 2.dp,
-
-            )
-
-        Spacer(modifier = Modifier.padding(10.dp).background(Color.White))
+                .padding(10.dp)
+                .background(Color.White)
+        )
     }
 
 

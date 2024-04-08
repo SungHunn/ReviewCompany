@@ -21,10 +21,10 @@ class WritingViewModel @Inject constructor(
     val writingState: StateFlow<Boolean> = _writingState.asStateFlow()
 
 
-    fun writeArticle(articleEntity: DomainArticle) = viewModelScope.launch {
+    fun writeArticle(domainArticle : DomainArticle) = viewModelScope.launch {
         viewModelScope.launch {
             try {
-                _writingState.emit(firebaseRepository.insertArticle(articleEntity))
+                _writingState.emit(firebaseRepository.insertArticle(domainArticle))
             } catch (e: Exception) {
                 Log.e("Write", e.toString())
             }
